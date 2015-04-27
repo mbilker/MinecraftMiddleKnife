@@ -31,11 +31,13 @@ package org.bonsaimind.minecraftmiddleknife.post16;
  * Occurs when there was a problem running Minecraft.
  */
 public class RunException extends Exception {
-
+	
+	private static final long serialVersionUID = -7771369075114140194L;
+	
 	public RunException(String message, Throwable cause) {
 		super(message, cause);
 	}
-
+	
 	public RunException(String msg) {
 		super(msg);
 	}

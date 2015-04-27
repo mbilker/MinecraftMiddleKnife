@@ -31,44 +31,19 @@ package org.bonsaimind.minecraftmiddleknife;
  * Represents an option, consisting of a key and a value, in the option file.
  */
 public final class Option {
-
+	
 	public static final String KEY_VALUE_SEPARATOR = ":";
+	
 	private final String key;
 	private final String value;
-
+	
 	/**
-	 * Returns the Option instance which represents the given key-value-pair.
-	 * @param keyValuePair The key-value-pair in the format "key:value".
-	 * @return
-	 * @throws If keyValuePair is null, empty, does not contain the KEY_VALUE_SEPARATOR or
-	 * if the key-part is empty.
-	 */
-	public static Option fromString(String keyValuePair) {
-		if (keyValuePair == null) {
-			throw new IllegalArgumentException("keyValuePair is null.");
-		}
-
-		if (keyValuePair.isEmpty()) {
-			throw new IllegalArgumentException("keyValuePair is empty.");
-		}
-
-		if (!keyValuePair.contains(KEY_VALUE_SEPARATOR)) {
-			throw new IllegalArgumentException("keyValuePair does not contain the separator.");
-		}
-
-		String[] pair = keyValuePair.split(KEY_VALUE_SEPARATOR);
-		if (pair[0].isEmpty()) {
-			throw new IllegalArgumentException("key is empty.");
-		}
-
-		return new Option(pair[0], pair[1]);
-	}
-
-	/**
-	 * Creates a new instance of the Option class.
-	 * @param key The key to use. It is not allowed to be null or empty.
-	 * @param value The value to use. It is not allowed to be null.
-	 * @throws IllegalArgumentException If the key is null or empty or the value is null.
+	 * Creates a new instance of {@link Option}.
+	 * 
+	 * @param key the key to use. It is not allowed to be {@code null} or empty.
+	 * @param value the value to use. It is not allowed to be {@code null}.
+	 * @throws IllegalArgumentException if the key is {@code null} or empty or
+	 *             the value is {@code null}.
 	 */
 	public Option(String key, String value) {
 		if (key == null) {
@@ -80,27 +55,58 @@ public final class Option {
 		if (value == null) {
 			throw new IllegalArgumentException("value is null.");
 		}
-
+		
 		this.key = key;
 		this.value = value;
 	}
-
+	
 	public String getKey() {
 		return key;
 	}
-
+	
 	public String getValue() {
 		return value;
 	}
-
+	
 	/**
-	 * Returns the string representation of this Option.
-	 *
-	 * This is in the format {@code key + KEY_VALUE_SEPARATOR + value}.
+	 * Returns the string representation of this Option. This is in the format
+	 * {@code key + KEY_VALUE_SEPARATOR + value}.
+	 * 
 	 * @return
 	 */
 	@Override
 	public String toString() {
 		return key + KEY_VALUE_SEPARATOR + value;
+	}
+	
+	/**
+	 * Returns the {@link Option} which is represented by the given
+	 * key-value-pair.
+	 * 
+	 * @param keyValuePair the key-value-pair in the format {@code key:value}.
+	 * @return
+	 * @throws if keyValuePair is {@code null}, empty, does not contain the
+	 *             {@link Option#KEY_VALUE_SEPARATOR} or if the key-part is
+	 *             empty.
+	 */
+	public static Option fromString(String keyValuePair) {
+		if (keyValuePair == null) {
+			throw new IllegalArgumentException("keyValuePair is null.");
+		}
+		
+		if (keyValuePair.isEmpty()) {
+			throw new IllegalArgumentException("keyValuePair is empty.");
+		}
+		
+		if (!keyValuePair.contains(KEY_VALUE_SEPARATOR)) {
+			throw new IllegalArgumentException("keyValuePair does not contain the separator.");
+		}
+		
+		String[] pair = keyValuePair.split(KEY_VALUE_SEPARATOR);
+		if (pair[0].isEmpty()) {
+			throw new IllegalArgumentException("key is empty.");
+		}
+		
+		return new Option(pair[0], pair[1]);
 	}
 }

@@ -39,19 +39,22 @@ import java.awt.event.WindowListener;
  * only contain our ContainerApplet which itself contains the Minecraft applet).
  */
 public class ContainerFrame extends Frame {
-
+	
+	private static final long serialVersionUID = 5317438537200198099L;
+	
 	private Applet containerApplet;
 	private boolean exitOnClose = true;
-
+	
 	public ContainerFrame(String title) throws HeadlessException {
 		super(title);
-
+		
 		addWindowListener(new WindowListener() {
-
+			
 			@Override
 			public void windowOpened(WindowEvent e) {
+				// Not needed...
 			}
-
+			
 			@Override
 			public void windowClosing(WindowEvent e) {
 				Applet container = ContainerFrame.this.containerApplet;
@@ -60,64 +63,73 @@ public class ContainerFrame extends Frame {
 					container.destroy();
 					ContainerFrame.this.containerApplet = null;
 				}
-
+				
 				if (exitOnClose) {
 					System.exit(0);
 				}
 			}
-
+			
 			@Override
 			public void windowClosed(WindowEvent e) {
+				// Not needed...
 			}
-
+			
 			@Override
 			public void windowIconified(WindowEvent e) {
+				// Not needed...
 			}
-
+			
 			@Override
 			public void windowDeiconified(WindowEvent e) {
+				// Not needed...
 			}
-
+			
 			@Override
 			public void windowActivated(WindowEvent e) {
+				// Not needed...
 			}
-
+			
 			@Override
 			public void windowDeactivated(WindowEvent e) {
+				// Not needed...
 			}
 		});
-
+		
 		setLayout(new BorderLayout());
 	}
-
+	
 	/**
 	 * Get the ContainerApplet.
+	 * 
 	 * @return The ContainerApplet.
 	 */
 	public Applet getContainerApplet() {
 		return containerApplet;
 	}
-
+	
 	/**
 	 * Returns if System.exit(0) is executed when closing the frame.
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public boolean isExitOnClose() {
 		return exitOnClose;
 	}
-
+	
 	/**
 	 * Set the ContainerApplet.
+	 * 
 	 * @param container The ContainerApplet.
 	 */
 	public void setContainerApplet(ContainerApplet container) {
 		this.containerApplet = container;
 		add("Center", container);
 	}
-
+	
 	/**
 	 * Set this to true if you want a System.exit(0) executed on window close.
-	 * @param exitOnClose 
+	 * 
+	 * @param exitOnClose
 	 */
 	public void setExitOnClose(boolean exitOnClose) {
 		this.exitOnClose = exitOnClose;

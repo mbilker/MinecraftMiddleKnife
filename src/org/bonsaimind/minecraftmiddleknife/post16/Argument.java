@@ -34,25 +34,27 @@ import java.util.List;
  * A simple argument which is used to launch Minecraft.
  */
 public final class Argument {
-
 	private final String name;
 	private final String value;
-
+	
 	public Argument(String name, String value) {
 		this.name = name;
 		this.value = value;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
-
+	
 	public String getValue() {
 		return value;
 	}
-
+	
 	/**
-	 * Returns the string representation of this argument.
+	 * Returns the string representation of this argument. That representation
+	 * is {@code --name} if the {@code value} is null or empty, and
+	 * {@code --name=value} for all other cases.
+	 * 
 	 * @return The string representation.
 	 */
 	@Override
@@ -63,19 +65,20 @@ public final class Argument {
 			return "--" + name + "=" + value;
 		}
 	}
-
+	
 	/**
 	 * Converts the given arguments to strings.
+	 * 
 	 * @param arguments
 	 * @return
 	 */
 	public static String[] toStrings(Argument... arguments) {
 		List<String> argumentsAsStrings = new ArrayList<String>();
-
+		
 		for (Argument arg : arguments) {
 			argumentsAsStrings.add(arg.toString());
 		}
-
+		
 		return argumentsAsStrings.toArray(new String[argumentsAsStrings.size()]);
 	}
 }

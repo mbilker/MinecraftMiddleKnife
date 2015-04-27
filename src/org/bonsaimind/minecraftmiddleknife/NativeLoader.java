@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Robert 'Bobby' Zenz. All rights reserved.
+ * Copyright 2014 Robert 'Bobby' Zenz. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -27,19 +27,35 @@
  */
 package org.bonsaimind.minecraftmiddleknife;
 
+import java.io.File;
+
 /**
- * Occurs when there was an error during the creation of the cipher for the
- * lastlogin file.
+ * A simple static helper that allows you to load the native libraries which are
+ * needed for LWJGL and possibly others.
  */
-public class LastLoginCipherException extends Exception {
+public final class NativeLoader {
 	
-	private static final long serialVersionUID = 4615635687225608947L;
-	
-	public LastLoginCipherException(String message, Throwable cause) {
-		super(message, cause);
+	/**
+	 * Not supposed to be instantiated.
+	 */
+	private NativeLoader() {
+		throw new AssertionError();
 	}
 	
-	public LastLoginCipherException(String message) {
-		super(message);
+	/**
+	 * Loads the native libraries from the given directory.
+	 * <p/>
+	 * To be perfectly honest, this does nothing but making the given path
+	 * absolute and setting it into the {@code org.lwjgl.librarypath} and
+	 * {@code net.java.games.input.librarypath} system properties.
+	 * 
+	 * @param dir the directory from which to load the native libraries.
+	 */
+	public static void loadNativeLibraries(String dir) {
+		// This fixes issues with Microsoft Windows.
+		String absoluteDir = new File(dir).getAbsolutePath();
+		
+		System.setProperty("org.lwjgl.librarypath", absoluteDir);
+		System.setProperty("net.java.games.input.librarypath", absoluteDir);
 	}
 }

@@ -29,13 +29,12 @@ package org.bonsaimind.minecraftmiddleknife.post16;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URLClassLoader;
 
 /**
  * Allows you to start Minecraft.
  */
 public final class Kickstarter {
-
+	
 	public static final String ARGUMENT_ACCESS_TOKEN = "accessToken";
 	public static final String ARGUMENT_ASSETS_DIR = "assetsDir";
 	/**
@@ -61,67 +60,78 @@ public final class Kickstarter {
 	public static final String ARGUMENT_WIDTH = "width";
 	public static final String MAIN_CLASS = "net.minecraft.client.main.Main";
 	public static final String MAIN_METHOD = "main";
-
+	
 	private Kickstarter() {
 		throw new AssertionError(); // Shouldn't happen.
 	}
-
+	
 	/**
 	 * Calls the Minecraft main method.
+	 * 
+	 * @param classLoader the {@link CLassLoader} that will be used for loading
+	 *            the main class.
 	 * @param arguments
 	 * @throws RunException
 	 */
-	public static void run(Argument... arguments) throws RunException {
-		run(Argument.toStrings(arguments));
+	public static void run(ClassLoader classLoader, Argument... arguments) throws RunException {
+		run(classLoader, Argument.toStrings(arguments));
 	}
-
+	
 	/**
 	 * Calls the Minecraft main method.
+	 * 
+	 * @param classLoader the {@link CLassLoader} that will be used for loading
+	 *            the main class.
 	 * @param arguments
 	 * @throws RunException
 	 */
-	public static void run(String... arguments) throws RunException {
-		run(MAIN_CLASS, MAIN_METHOD, arguments);
+	public static void run(ClassLoader classLoader, String... arguments) throws RunException {
+		run(classLoader, MAIN_CLASS, MAIN_METHOD, arguments);
 	}
-
+	
 	/**
-	 * Calls the given method in the given class, but converts the arguments first to Strings.
+	 * Calls the given method in the given class, but converts the arguments
+	 * first to Strings.
+	 * 
+	 * @param classLoader the {@link CLassLoader} that will be used for loading
+	 *            the main class.
 	 * @param mainClass
 	 * @param mainMethod
 	 * @param arguments
 	 * @throws RunException
 	 */
-	public static void run(String mainClass, String mainMethod, Argument... arguments) throws RunException {
-		run(mainClass, mainMethod, Argument.toStrings(arguments));
+	public static void run(ClassLoader classLoader, String mainClass, String mainMethod, Argument... arguments) throws RunException {
+		run(classLoader, mainClass, mainMethod, Argument.toStrings(arguments));
 	}
-
+	
 	/**
-	 * Calls the given method in the given class with the given arguments.
-	 * Yeah, I suck at JavaDoc.
+	 * Calls the given method in the given class with the given arguments. Yeah,
+	 * I suck at JavaDoc.
+	 * 
+	 * @param classLoader the {@link CLassLoader} that will be used for loading
+	 *            the main class.
 	 * @param mainClass
 	 * @param mainMethod
 	 * @param arguments
 	 * @throws RunException
 	 */
-	public static void run(String mainClass, String mainMethod, String... arguments) throws RunException {
-		URLClassLoader loader = (URLClassLoader) Thread.currentThread().getContextClassLoader();
-
+	public static void run(ClassLoader classLoader, String mainClass, String mainMethod, String... arguments) throws RunException {
 		try {
-			Class minecraftMainClass = loader.loadClass(mainClass);
+			Class<?> minecraftMainClass = classLoader.loadClass(mainClass);
 			Method minecraftMainMethod = minecraftMainClass.getMethod(mainMethod, String[].class);
 			minecraftMainMethod.invoke(null, (Object) (arguments));
-		} catch (NoSuchMethodException ex) {
-			throw new RunException("Failed to start Minecraft.", ex);
-		} catch (SecurityException ex) {
-			throw new RunException("Failed to start Minecraft.", ex);
-		} catch (IllegalAccessException ex) {
-			throw new RunException("Failed to start Minecraft.", ex);
-		} catch (IllegalArgumentException ex) {
-			throw new RunException("Failed to start Minecraft.", ex);
-		} catch (InvocationTargetException ex) {
-			throw new RunException("Failed to start Minecraft.", ex);
-		} catch (ClassNotFoundException ex) {
-			throw new RunException("Failed to start Minecraft.", ex);
+		} catch (NoSuchMethodException e) {
+			throw new RunException("Failed to start Minecraft.", e);
+		} catch (SecurityException e) {
+			throw new RunException("Failed to start Minecraft.", e);
+		} catch (IllegalAccessException e) {
+			throw new RunException("Failed to start Minecraft.", e);
+		} catch (IllegalArgumentException e) {
+			throw new RunException("Failed to start Minecraft.", e);
+		} catch (InvocationTargetException e) {
+			throw new RunException("Failed to start Minecraft.", e);
+		} catch (ClassNotFoundException e) {
+			throw new RunException("Failed to start Minecraft.", e);
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Robert 'Bobby' Zenz. All rights reserved.
+ * Copyright 2014 Robert 'Bobby' Zenz. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -25,18 +25,16 @@
  * authors and should not be interpreted as representing official policies, either expressed
  * or implied, of Robert 'Bobby' Zenz.
  */
-package org.bonsaimind.minecraftmiddleknife;
+package org.bonsaimind.minecraftmiddleknife.post16.yggdrasil;
 
-/**
- * Occurs when there was an error while extending the ClassLoader.
- */
-public class ClassLoaderExtensionException extends Exception {
+import org.json.simple.JSONObject;
 
-	public ClassLoaderExtensionException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public ClassLoaderExtensionException(String message) {
-		super(message);
+abstract class Payload {
+	
+	abstract JSONObject toJSON();
+	
+	@Override
+	public String toString() {
+		return toJSON().toJSONString();
 	}
 }

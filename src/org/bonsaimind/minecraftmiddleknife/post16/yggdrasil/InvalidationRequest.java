@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Robert 'Bobby' Zenz. All rights reserved.
+ * Copyright 2014 Robert 'Bobby' Zenz. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -25,21 +25,32 @@
  * authors and should not be interpreted as representing official policies, either expressed
  * or implied, of Robert 'Bobby' Zenz.
  */
-package org.bonsaimind.minecraftmiddleknife;
+package org.bonsaimind.minecraftmiddleknife.post16.yggdrasil;
+
+import org.json.simple.JSONObject;
 
 /**
- * Occurs when there was an error during the creation of the cipher for the
- * lastlogin file.
+ * Represents a request for invalidation of the tokens.
  */
-public class LastLoginCipherException extends Exception {
+public final class InvalidationRequest extends Payload {
 	
-	private static final long serialVersionUID = 4615635687225608947L;
+	private final String accessToken;
+	private final String clientToken;
 	
-	public LastLoginCipherException(String message, Throwable cause) {
-		super(message, cause);
+	public InvalidationRequest(String accessToken, String clientToken) {
+		this.accessToken = accessToken;
+		this.clientToken = clientToken;
 	}
 	
-	public LastLoginCipherException(String message) {
-		super(message);
+	public String getClientToken() {
+		return clientToken;
+	}
+	
+	@Override
+	public JSONObject toJSON() {
+		JSONObject json = new JSONObject();
+		json.put("accessToken", accessToken);
+		json.put("clientToken", clientToken);
+		return json;
 	}
 }
